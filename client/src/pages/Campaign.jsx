@@ -1,5 +1,7 @@
+import SingleCampaign from "../features/campaigns/SingleCampaign";
+
 function Campaign() {
-  return <h1>Campaign page</h1>;
+  return <SingleCampaign />;
 }
 
 export default Campaign;
