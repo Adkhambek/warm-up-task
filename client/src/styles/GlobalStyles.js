@@ -19,12 +19,21 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  font-size: 18px;
+  font-size: 2rem;
 }
 
 a {
   text-decoration: none;
   font-size: 2rem;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  width: 100%;
 }
 `;
 
