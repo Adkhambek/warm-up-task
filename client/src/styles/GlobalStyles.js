@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
 html {
   font-size: 10px;
   box-sizing: border-box;
@@ -13,11 +15,11 @@ html {
   padding: 0;
   box-sizing: inherit;
   list-style: none;
-  font-family: 'Montserrat', sans-serif;
 }
 
 body {
-  background-color: aliceblue;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
 }
 
 a {
