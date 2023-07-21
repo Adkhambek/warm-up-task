@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000/api";
+import { API_URL } from "../utils/constants";
 
 export async function getCampaigns() {
   const res = await fetch(`${API_URL}/campaigns`);

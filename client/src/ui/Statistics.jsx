@@ -31,7 +31,11 @@ function Statistics({ supporters, daysLeft }) {
       </StatisticItem>
       <StatisticItem>
         <FontAwesomeIcon icon={faClock} />
-        <P>{daysLeft} days left</P>
+        <P>
+          {daysLeft === 0 && "expired"}
+          {daysLeft !== 0 &&
+            `${daysLeft} ${daysLeft === 1 ? "day" : "days"} left`}
+        </P>
       </StatisticItem>
     </StyledStatistics>
   );

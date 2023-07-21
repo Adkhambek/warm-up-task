@@ -2,6 +2,13 @@ import styled from "styled-components";
 import Statistics from "../../ui/Statistics";
 import ProgressBar from "../../ui/ProgressBar";
 import LinkButton from "../../ui/LinkButton";
+import { IMAGE_URL } from "../../utils/constants";
+import {
+  formatNumberWithCommas,
+  formatCompactNumber,
+  getCountdownDays,
+  truncateText,
+} from "../../utils/helpers";
 
 const StyledCampaignListItem = styled.li`
   width: calc((100% - 10rem) / 3);
@@ -40,20 +47,27 @@ const TotalAmount = styled.p`
   color: #4d4d4d;
 `;
 
-function CampaignListItem() {
+function CampaignListItem({ campaign }) {
   return (
     <StyledCampaignListItem>
-      <Image src="https://picsum.photos/500" alt="random image" />
+      <Image src={`${IMAGE_URL}/${campaign.image}`} alt={campaign.title} />
       <Caption>
-        <H2>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</H2>
-        <Statistics supporters={20} daysLeft={3} />
+        <H2>{truncateText(campaign.title, 50)}</H2>
+        <Statistics
+          supporters={campaign.supporters}
+          daysLeft={getCountdownDays(campaign.deadline)}
+        />
         <ProgressBar percentage={40} />
         <CaptionFooter>
           <div>
-            <PledgeAmount>$200</PledgeAmount>
-            <TotalAmount>funded of $20k</TotalAmount>
+            <PledgeAmount>
+              ${formatNumberWithCommas(campaign.price)}
+            </PledgeAmount>
+            <TotalAmount>
+              funded of ${formatCompactNumber(campaign.fundedOf)}
+            </TotalAmount>
           </div>
-          <LinkButton to="/campaign">Support</LinkButton>
+          <LinkButton to={`/campaign/${campaign.slug}`}>Support</LinkButton>
         </CaptionFooter>
       </Caption>
     </StyledCampaignListItem>
