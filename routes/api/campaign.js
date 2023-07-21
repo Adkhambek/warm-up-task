@@ -7,13 +7,11 @@ router.get("/", async (req, res) => {
 
     res.status(200).json({
       ok: true,
-      code: 200,
       campaigns,
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       ok: false,
-      code: 400,
       message: "Your request could not be processed. Please try again.",
     });
   }
@@ -25,22 +23,19 @@ router.get("/:slug", async (req, res) => {
     const campaign = await Campaign.findOne({ slug });
 
     if (!campaign) {
-      res.status(404).json({
+      return res.status(404).json({
         ok: false,
-        code: 404,
         message: "No campaign found",
       });
     }
 
     res.status(200).json({
       ok: true,
-      code: 200,
       campaign,
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       ok: false,
-      code: 400,
       message: "Your request could not be processed. Please try again.",
     });
   }
