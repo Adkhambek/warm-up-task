@@ -1,17 +1,13 @@
-import styled from "styled-components";
 import Container from "../ui/Container";
+import Heading from "../ui/Heading";
 import CampaignList from "../features/campaigns/CampaignList";
-
-const H1 = styled.h1`
-  font-size: 32px;
-  font-weight: 700;
-  margin: 2rem 0;
-`;
 
 function Homepage() {
   return (
     <Container>
-      <H1>Fundraising now</H1>
+      <Heading as="h1" titleOf="homePage">
+        Fundraising now
+      </Heading>
       <CampaignList />
     </Container>
   );

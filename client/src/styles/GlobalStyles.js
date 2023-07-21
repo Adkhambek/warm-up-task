@@ -30,11 +30,6 @@ a {
 ul {
   list-style: none;
 }
-
-img {
-  display: block;
-  width: 100%;
-}
 `;
 
 export default GlobalStyles;
