@@ -50,3 +50,7 @@ export function formatCompactNumber(num) {
     ? (num / item.value).toFixed(1).replace(rx, "$1") + item.symbol
     : "0";
 }
+
+export function findPercentage(numerator, denominator) {
+  return ((numerator / denominator) * 100).toFixed(2);
+}

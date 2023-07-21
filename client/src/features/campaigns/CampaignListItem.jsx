@@ -8,6 +8,7 @@ import {
   formatCompactNumber,
   getCountdownDays,
   truncateText,
+  findPercentage,
 } from "../../utils/helpers";
 
 const StyledCampaignListItem = styled.li`
@@ -57,7 +58,12 @@ function CampaignListItem({ campaign }) {
           supporters={campaign.supporters}
           daysLeft={getCountdownDays(campaign.deadline)}
         />
-        <ProgressBar percentage={40} />
+        <ProgressBar
+          percentage={findPercentage(
+            campaign.supporters,
+            campaign.totalSupporters
+          )}
+        />
         <CaptionFooter>
           <div>
             <PledgeAmount>

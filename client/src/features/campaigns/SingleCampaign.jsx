@@ -7,7 +7,11 @@ import Button from "../../ui/Button";
 import { getCampaignBySlug } from "../../services/apiCampaigns";
 import Spinner from "../../ui/Spinner";
 import { IMAGE_URL } from "../../utils/constants";
-import { formatNumberWithCommas, getCountdownDays } from "../../utils/helpers";
+import {
+  formatNumberWithCommas,
+  getCountdownDays,
+  findPercentage,
+} from "../../utils/helpers";
 
 const H1 = styled.h1`
   font-size: 3.4rem;
@@ -105,7 +109,12 @@ function SingleCampaign() {
               <TotalAmount>
                 funded of ${formatNumberWithCommas(campaign.fundedOf)} USD
               </TotalAmount>
-              <ProgressBar percentage={40} />
+              <ProgressBar
+                percentage={findPercentage(
+                  campaign.supporters,
+                  campaign.totalSupporters
+                )}
+              />
               <P>
                 <strong>{campaign.supporters}</strong> supporters,{" "}
                 <strong>{getCountdownDays(campaign.deadline)}</strong> days left

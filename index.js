@@ -16,6 +16,15 @@ mongoose
 
 app.use("/images", express.static(path.join(__dirname, "images")));
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.use(`/${apiUrl}`, routes);
 app.use(`/${apiUrl}`, (req, res) =>
   res.status(404).json({

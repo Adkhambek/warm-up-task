@@ -27,6 +27,10 @@ const CampaignSchema = new Schema({
     type: Number,
     required: true,
   },
+  totalSupporters: {
+    type: Number,
+    required: true,
+  },
   deadline: {
     type: Date,
     required: true,
