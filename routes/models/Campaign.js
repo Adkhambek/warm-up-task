@@ -2,47 +2,24 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const CampaignSchema = new Schema({
-  _id: {
-    type: Schema.ObjectId,
-    auto: true,
-  },
   title: {
     type: String,
     trim: true,
-    required: true,
   },
   slug: {
     type: String,
     unique: true,
   },
-  image: {
-    type: String,
-    required: true,
-  },
   description: {
     type: String,
     trim: true,
   },
-  supporters: {
-    type: Number,
-    required: true,
-  },
-  totalSupporters: {
-    type: Number,
-    required: true,
-  },
-  deadline: {
-    type: Date,
-    required: true,
-  },
-  fundedOf: {
-    type: Number,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
+  image: String,
+  supporters: Number,
+  totalSupporters: Number,
+  deadline: Date,
+  fundedOf: Number,
+  price: Number,
   createdAt: {
     type: Date,
     default: Date.now,
