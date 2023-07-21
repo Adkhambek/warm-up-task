@@ -11,7 +11,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="campaign" element={<Campaign />} />
+          <Route path="campaign/:slug" element={<Campaign />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>

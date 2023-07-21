@@ -1,7 +1,7 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import CampaignListItem from "./CampaignListItem";
 import { getCampaigns } from "../../services/apiCampaigns";
-import { useEffect, useState } from "react";
 import Spinner from "../../ui/Spinner";
 
 const StyledCampaignList = styled.ul`
@@ -37,6 +37,7 @@ function CampaignList() {
       {isLoading && <Spinner />}
       {error && <p>{error}</p>}
       {!isLoading &&
+        !error &&
         campaigns.map((campaign) => {
           return <CampaignListItem campaign={campaign} key={campaign.slug} />;
         })}

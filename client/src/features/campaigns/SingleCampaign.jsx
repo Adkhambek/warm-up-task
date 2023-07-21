@@ -1,7 +1,13 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Container from "../../ui/Container";
 import ProgressBar from "../../ui/ProgressBar";
 import Button from "../../ui/Button";
+import { getCampaignBySlug } from "../../services/apiCampaigns";
+import Spinner from "../../ui/Spinner";
+import { IMAGE_URL } from "../../utils/constants";
+import { formatNumberWithCommas, getCountdownDays } from "../../utils/helpers";
 
 const H1 = styled.h1`
   font-size: 3.4rem;
@@ -20,12 +26,13 @@ const SummaryWrapper = styled.div`
 `;
 
 const Image = styled.img`
+  width: 70%;
   height: 60rem;
   object-fit: cover;
 `;
 
 const SummaryDescription = styled.div`
-  width: 40%;
+  width: 30%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,68 +66,56 @@ const CampaignContent = styled.div`
 `;
 
 function SingleCampaign() {
+  const { slug } = useParams();
+  const [campaign, setCampaign] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getCampaignBySlug(slug);
+        setCampaign(data);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [slug]);
+
   return (
     <Container>
-      <H1>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consectetur
-        provident, optio labore sint ducimus.
-      </H1>
-      <SummaryWrapper>
-        <Image src="https://picsum.photos/600" alt="random image" />
-        <SummaryDescription>
-          <PledgeAmount>$478</PledgeAmount>
-          <TotalAmount>funded of $20,000 USD</TotalAmount>
-          <ProgressBar percentage={40} />
-          <P>
-            {" "}
-            <strong>25</strong> supporters, <strong>165</strong> days left
-          </P>
-          <Button>Support</Button>
-        </SummaryDescription>
-      </SummaryWrapper>
-      <CampaignContent>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Est at iste,
-          voluptatibus quo dolore explicabo voluptates similique modi delectus
-          in labore, nostrum commodi sequi maxime quibusdam earum quisquam omnis
-          ea id autem facilis molestias provident. Praesentium eum quod quia
-          eius saepe nesciunt magni earum exercitationem optio ex, odit quos
-          error velit veniam explicabo possimus illo officia. Maxime expedita
-          perferendis assumenda sapiente in iure magnam fugiat consectetur,
-          nulla dicta vel, ex accusantium necessitatibus quod voluptas. Veniam
-          incidunt praesentium quae quidem expedita, repellat quisquam corrupti
-          assumenda consectetur rerum, explicabo excepturi nam omnis veritatis
-          ducimus similique natus repellendus minima ad porro doloremque! Minus!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quia
-          sapiente perspiciatis adipisci? Id, eum perferendis, nemo odit
-          reiciendis ducimus laudantium neque minus, temporibus dolores
-          reprehenderit quae tempore nulla quam. Tempora molestiae doloribus
-          dolor odit? Quo repellat quod culpa quam sapiente excepturi doloremque
-          nam blanditiis ipsum eveniet officiis saepe totam rem consequuntur
-          quae, cum at nisi quidem deserunt voluptatum quas maiores. Dicta
-          voluptas qui eaque in vel corporis dolores ea corrupti ullam?
-          Accusantium rem modi est magnam pariatur harum molestias esse corporis
-          perspiciatis ex veritatis velit officiis unde laboriosam ipsum
-          deleniti nemo vel quidem alias dolorem, numquam necessitatibus! Nihil,
-          cupiditate?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam quia
-          sapiente perspiciatis adipisci? Id, eum perferendis, nemo odit
-          reiciendis ducimus laudantium neque minus, temporibus dolores
-          reprehenderit quae tempore nulla quam. Tempora molestiae doloribus
-          dolor odit? Quo repellat quod culpa quam sapiente excepturi doloremque
-          nam blanditiis ipsum eveniet officiis saepe totam rem consequuntur
-          quae, cum at nisi quidem deserunt voluptatum quas maiores. Dicta
-          voluptas qui eaque in vel corporis dolores ea corrupti ullam?
-          Accusantium rem modi est magnam pariatur harum molestias esse corporis
-          perspiciatis ex veritatis velit officiis unde laboriosam ipsum
-          deleniti nemo vel quidem alias dolorem, numquam necessitatibus! Nihil,
-          cupiditate?
-        </p>
-      </CampaignContent>
+      {isLoading && <Spinner />}
+      {error && <p>{error}</p>}
+      {!isLoading && !error && (
+        <>
+          <H1>{campaign.title}</H1>
+          <SummaryWrapper>
+            <Image
+              src={`${IMAGE_URL}/${campaign.image}`}
+              alt={campaign.title}
+            />
+            <SummaryDescription>
+              <PledgeAmount>
+                ${formatNumberWithCommas(campaign.price)}
+              </PledgeAmount>
+              <TotalAmount>
+                funded of ${formatNumberWithCommas(campaign.fundedOf)} USD
+              </TotalAmount>
+              <ProgressBar percentage={40} />
+              <P>
+                <strong>{campaign.supporters}</strong> supporters,{" "}
+                <strong>{getCountdownDays(campaign.deadline)}</strong> days left
+              </P>
+              <Button>Support</Button>
+            </SummaryDescription>
+          </SummaryWrapper>
+          <CampaignContent>{campaign.description}</CampaignContent>
+        </>
+      )}
     </Container>
   );
 }
